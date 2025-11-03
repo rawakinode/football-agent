@@ -150,16 +150,27 @@ async function startCli() {
 
         // Perkiraan Pemain yang Absen
         let ABSENT_PLAYER = `\nPLAYER INJURED OR CAN'T PLAY IN THIS MATCH:\n`;
-        ABSENT_PLAYER += `\n${matchData.content.lineup.homeTeam.name}:\n`;
-        for (let i = 0; i < matchData.content.lineup.homeTeam.unavailable.length; i++) {
-            const e = matchData.content.lineup.homeTeam.unavailable[i];
-            ABSENT_PLAYER += `${e.name}\n`;
+
+        // Check home team unavailable players
+        if (matchData?.content?.lineup?.homeTeam?.unavailable?.length > 0) {
+            ABSENT_PLAYER += `\n${matchData.content.lineup.homeTeam.name}:\n`;
+            for (let i = 0; i < matchData.content.lineup.homeTeam.unavailable.length; i++) {
+                const e = matchData.content.lineup.homeTeam.unavailable[i];
+                ABSENT_PLAYER += `${e.name}\n`;
+            }
+        } else {
+            ABSENT_PLAYER += `\n${matchData?.content?.lineup?.homeTeam?.name || 'Home Team'}: No injured players\n`;
         }
 
-        ABSENT_PLAYER += `\n${matchData.content.lineup.awayTeam.name}:\n`;
-        for (let i = 0; i < matchData.content.lineup.awayTeam.unavailable.length; i++) {
-            const e = matchData.content.lineup.awayTeam.unavailable[i];
-            ABSENT_PLAYER += `${e.name}\n`;
+        // Check away team unavailable players
+        if (matchData?.content?.lineup?.awayTeam?.unavailable?.length > 0) {
+            ABSENT_PLAYER += `\n${matchData.content.lineup.awayTeam.name}:\n`;
+            for (let i = 0; i < matchData.content.lineup.awayTeam.unavailable.length; i++) {
+                const e = matchData.content.lineup.awayTeam.unavailable[i];
+                ABSENT_PLAYER += `${e.name}\n`;
+            }
+        } else {
+            ABSENT_PLAYER += `\n${matchData?.content?.lineup?.awayTeam?.name || 'Away Team'}: No injured players\n`;
         }
 
         // Combine all prompt
